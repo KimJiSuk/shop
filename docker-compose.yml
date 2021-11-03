@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "backpack"
+      TZ: Asia/Seoul
+    restart: always
+    volumes:
+      - "./docker-compose-mysql.cnf:/etc/mysql/conf.d/mysql.cnf"
+    ports:
+      - 3306:3306
+    container_name: shop-mysql
