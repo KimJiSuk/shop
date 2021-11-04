@@ -1,18 +1,22 @@
-package com.back.shop.controller;
+package com.back.shop.user;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @Api("User")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/users")
 public class UserController {
 
-    @PostMapping
-    @ApiOperation(value = "회원 가입")
-    public void joinUser() {
+    private final UserService userService;
 
+    @PostMapping("/join")
+    @ApiOperation(value = "회원 가입")
+    public void joinUser(@RequestBody UserJoinRequest userJoinRequest) {
+        System.out.println(userJoinRequest);
     }
 
     @PostMapping("/login")
@@ -39,7 +43,7 @@ public class UserController {
 
     }
 
-    @GetMapping()
+    @GetMapping
     @ApiOperation(value = "여러 회원 목록 조회")
     public void getUsers() {
 

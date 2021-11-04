@@ -1,7 +1,10 @@
-package com.back.shop.domain;
+package com.back.shop.order;
+
+import lombok.Getter;
 
 import java.time.ZonedDateTime;
 
+@Getter
 public class Order {
     private final int ORDER_NUMBER_MAX_LENGTH = 12;
     private final int PRODUCT_NAME_MAX_LENGTH = 100;
@@ -14,18 +17,6 @@ public class Order {
         this.orderNumber = validateOrderNumber(orderNumber);
         this.productName = validateProductName(productName);
         this.orderAt = ZonedDateTime.now();
-    }
-
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public ZonedDateTime getOrderAt() {
-        return orderAt;
     }
 
     private String validateOrderNumber(String orderNumber) {

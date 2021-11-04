@@ -1,7 +1,10 @@
-package com.back.shop.domain;
+package com.back.shop.user.domain;
+
+import lombok.Getter;
 
 import java.util.regex.Pattern;
 
+@Getter
 public class User {
     private final int NAME_MAX_LENGTH = 20;
     private final int NICKNAME_MAX_LENGTH = 30;
@@ -12,6 +15,7 @@ public class User {
     private final String NICKNAME_REGULAR_REGEX = "^[a-z]*$";
     private final String PHONE_NUMBER_REGULAR_REGEX = "^[0-9]*$";
     private final String EMAIL_REGULAR_REGEX = "[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+
     private final String name;
     private final String nickname;
     private final String password;
@@ -26,30 +30,6 @@ public class User {
         this.phoneNumber = validatePhoneNumber(phoneNumber);
         this.email = validateEmail(email);
         this.sex = sex;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getSex() {
-        return sex;
     }
 
     private String validateName(String name) {

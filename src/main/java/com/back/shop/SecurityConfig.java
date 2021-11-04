@@ -22,15 +22,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/v2/api-docs", "/api/v2/**", "/swagger/**",
-                "/configuration/ui", "/configuration/security",
-                "/swagger-resources/**", "/swagger-ui.html",
-                "/webjars/**", "/swagger/**");
+                "/configuration/ui", "/configuration/security","/swagger-resources/**", "/swagger-ui.html",
+                "/webjars/**", "/swagger/**", "/users/join", "/users/login");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/users").permitAll()
                 .anyRequest().authenticated();
     }
 }

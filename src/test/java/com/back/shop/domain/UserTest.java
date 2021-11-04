@@ -1,5 +1,6 @@
 package com.back.shop.domain;
 
+import com.back.shop.user.domain.User;
 import org.junit.jupiter.api.Test;
 
 public class UserTest {

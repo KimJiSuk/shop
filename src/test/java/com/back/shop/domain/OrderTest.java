@@ -1,8 +1,7 @@
 package com.back.shop.domain;
 
+import com.back.shop.order.Order;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
 
