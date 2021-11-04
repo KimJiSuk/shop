@@ -14,7 +14,7 @@ create table user
     name VARCHAR(20) not null,
     nickname VARCHAR(30) not null,
     password VARCHAR(255) not null,
-    phone_number int not null,
+    phone_number VARCHAR(20) not null,
     email VARCHAR(100) not null,
     sex CHAR null,
     create_at DATETIME default NOW() null,
