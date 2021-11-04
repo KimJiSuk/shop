@@ -1,13 +1,13 @@
 package com.back.shop.domain;
 
-import com.back.shop.order.Order;
+import com.back.shop.order.OrderInfo;
 import org.junit.jupiter.api.Test;
 
 class OrderTest {
 
     @Test
     void order() {
-        new Order("123kjf", "제품명은");
+        new OrderInfo("123kjf", "제품명은");
     }
 
 }

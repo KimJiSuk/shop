@@ -17,6 +17,7 @@ public class UserController {
     @ApiOperation(value = "회원 가입")
     public void joinUser(@RequestBody UserJoinRequest userJoinRequest) {
         System.out.println(userJoinRequest);
+        userService.userJoin(userJoinRequest);
     }
 
     @PostMapping("/login")

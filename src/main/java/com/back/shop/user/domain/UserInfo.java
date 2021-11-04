@@ -1,11 +1,12 @@
 package com.back.shop.user.domain;
 
+import com.back.shop.user.entity.User;
 import lombok.Getter;
 
 import java.util.regex.Pattern;
 
 @Getter
-public class User {
+public class UserInfo {
     private final int NAME_MAX_LENGTH = 20;
     private final int NICKNAME_MAX_LENGTH = 30;
     private final int PHONE_NUMBER_MAX_LENGTH = 20;
@@ -23,7 +24,7 @@ public class User {
     private final String email;
     private final String sex;
 
-    public User(String name, String nickname, String password, String phoneNumber, String email, String sex) {
+    public UserInfo(String name, String nickname, String password, String phoneNumber, String email, String sex) {
         this.name = validateName(name);
         this.nickname = validateNickname(nickname);
         this.password = password;
@@ -78,5 +79,16 @@ public class User {
         }
 
         return email;
+    }
+
+    public User toEntity() {
+        return User.builder()
+                .name(name)
+                .nickname(nickname)
+                .password(password)
+                .phoneNumber(phoneNumber)
+                .email(email)
+                .sex(sex)
+                .build();
     }
 }
