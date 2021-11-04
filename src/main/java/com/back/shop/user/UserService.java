@@ -4,7 +4,9 @@ import com.back.shop.order.entity.Order;
 import com.back.shop.order.entity.OrderRepository;
 import com.back.shop.user.domain.UserInfo;
 import com.back.shop.user.entity.User;
+import com.back.shop.user.entity.UserDao;
 import com.back.shop.user.entity.UserRepository;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +24,8 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
 
     private final OrderRepository orderRepository;
+
+    private final UserDao userDao;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -55,6 +59,12 @@ public class UserService implements UserDetailsService {
     public List<Order> getOrders(Long userId) {
 
         return orderRepository.findByUserId(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Tuple> getUsers(Long offset, Long size, String name, String email) {
+
+        return userDao.getUsers(offset, size, name, email);
     }
 
     private String encodePassword(String password) {

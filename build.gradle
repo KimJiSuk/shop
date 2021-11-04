@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'war'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.back'
@@ -20,6 +21,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	implementation 'com.querydsl:querydsl-jpa'
 	runtimeOnly 'mysql:mysql-connector-java'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	compileOnly 'org.projectlombok:lombok:1.18.22'
@@ -32,4 +34,23 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+	main.java.srcDir querydslDir
+}
+
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
 }

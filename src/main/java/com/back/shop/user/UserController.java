@@ -63,8 +63,14 @@ public class UserController {
 
     @GetMapping
     @ApiOperation(value = "여러 회원 목록 조회")
-    public String getUsers() {
-        return "abc";
+    public List<UserOrderResponse> getUsers(
+            @RequestParam Long offset,
+            @RequestParam Long size,
+            @RequestParam String name,
+            @RequestParam String email
+    ) {
+
+        return UserOrderResponseBuilder.of(userService.getUsers(offset, size, name, email));
     }
 
 }
