@@ -1,5 +1,8 @@
 package com.back.shop.user;
 
+import com.back.shop.order.OrderResponse;
+import com.back.shop.order.OrderResponseBuilder;
+import com.back.shop.order.entity.Order;
 import com.back.shop.security.JwtTokenProvider;
 import com.back.shop.user.entity.User;
 import io.swagger.annotations.Api;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Api("User")
 @RestController
@@ -43,14 +47,18 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "단일 회원 상세 정보 조회")
-    public void getUser(@PathVariable String id) {
+    public UserResponse getUser(@PathVariable Long id) {
+        User user = userService.getUser(id);
 
+        return UserResponseBuilder.one(user);
     }
 
     @GetMapping("/{id}/order")
     @ApiOperation(value = "단일 회원의 주문 목록 조회")
-    public void getOrders(@PathVariable String id) {
+    public List<OrderResponse> getOrders(@PathVariable Long id) {
+        List<Order> orders = userService.getOrders(id);
 
+        return OrderResponseBuilder.of(orders);
     }
 
     @GetMapping
