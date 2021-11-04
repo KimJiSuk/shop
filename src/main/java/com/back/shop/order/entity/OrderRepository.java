@@ -1,6 +1,7 @@
 package com.back.shop.order.entity;
 
-import org.springframework.data.repository.CrudRepository;
 
-public interface OrderRepository extends CrudRepository<Order, Long> {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }

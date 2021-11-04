@@ -7,8 +7,10 @@ import java.util.regex.Pattern;
 
 @Getter
 public class UserInfo {
+    private final String USER_ROLE = "ROLE_USER";
     private final int NAME_MAX_LENGTH = 20;
     private final int NICKNAME_MAX_LENGTH = 30;
+    private final int PASSWORD_MIN_LENGTH = 10;
     private final int PHONE_NUMBER_MAX_LENGTH = 20;
     private final int EMAIL_MAX_LENGTH = 100;
 
@@ -27,7 +29,7 @@ public class UserInfo {
     public UserInfo(String name, String nickname, String password, String phoneNumber, String email, String sex) {
         this.name = validateName(name);
         this.nickname = validateNickname(nickname);
-        this.password = password;
+        this.password = validatePassword(password);
         this.phoneNumber = validatePhoneNumber(phoneNumber);
         this.email = validateEmail(email);
         this.sex = sex;
@@ -55,6 +57,14 @@ public class UserInfo {
         }
 
         return nickname;
+    }
+
+    private String validatePassword(String password) {
+        if (password.length() < PASSWORD_MIN_LENGTH) {
+            throw new IllegalArgumentException("Password min length 10.");
+        }
+
+        return password;
     }
 
     private String validatePhoneNumber(String phoneNumber) {
@@ -89,6 +99,7 @@ public class UserInfo {
                 .phoneNumber(phoneNumber)
                 .email(email)
                 .sex(sex)
+                .auth(USER_ROLE)
                 .build();
     }
 }
