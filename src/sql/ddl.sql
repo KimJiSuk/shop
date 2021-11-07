@@ -10,34 +10,32 @@ use shop;
 
 create table user
 (
-    id int auto_increment,
-    name VARCHAR(20) not null,
-    nickname VARCHAR(30) not null,
-    password VARCHAR(255) not null,
-    phone_number VARCHAR(20) not null,
-    email VARCHAR(100) not null,
-    sex CHAR null,
-    create_at DATETIME default NOW() null,
-    login_at DATETIME default NOW() null,
-    constraint user_pk
-        primary key (id)
+    id           int auto_increment
+        primary key,
+    name         varchar(20)                        not null,
+    nickname     varchar(30)                        not null,
+    password     varchar(255)                       not null,
+    phone_number varchar(20)                        not null,
+    email        varchar(100)                       not null,
+    sex          char                               null,
+    auth         varchar(10)                        null,
+    create_at    datetime default CURRENT_TIMESTAMP null,
+    login_at     datetime default CURRENT_TIMESTAMP null,
+    constraint user_email_uindex
+        unique (email)
 );
 
 create index user_name_index
     on user (name);
 
-create unique index user_email_uindex
-    on user (email);
-
 create table `order`
 (
-    id int auto_increment,
-    order_number VARCHAR(12) not null,
-    product_name VARCHAR(100) not null,
-    order_at DATETIME default NOW(),
-    constraint order_pk
-        primary key (id)
+    id           int auto_increment
+        primary key,
+    user_id      int                                not null,
+    order_number varchar(12)                        not null,
+    product_name varchar(100)                       not null,
+    order_at     datetime default CURRENT_TIMESTAMP null,
+    constraint order_order_number_uindex
+        unique (order_number)
 );
-
-create unique index order_order_number_uindex
-    on `order` (order_number);
