@@ -17,13 +17,12 @@ public class UserInfo {
     private final String NAME_REGULAR_REGEX = "^[ㄱ-ㅎ가-힣a-zA-Z]*$";
     private final String NICKNAME_REGULAR_REGEX = "^[a-z]*$";
     private final String PHONE_NUMBER_REGULAR_REGEX = "^[0-9]*$";
-    private final String EMAIL_REGULAR_REGEX = "[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
 
     private final String name;
     private final String nickname;
     private final String password;
     private final String phoneNumber;
-    private final String email;
+    private final Email email;
     private final String sex;
 
     public UserInfo(String name, String nickname, String password, String phoneNumber, String email, String sex) {
@@ -31,7 +30,7 @@ public class UserInfo {
         this.nickname = validateNickname(nickname);
         this.password = validatePassword(password);
         this.phoneNumber = validatePhoneNumber(phoneNumber);
-        this.email = validateEmail(email);
+        this.email = new Email(email);
         this.sex = sex;
     }
 
@@ -79,25 +78,13 @@ public class UserInfo {
         return phoneNumber;
     }
 
-    private String validateEmail(String email) {
-        if (email.length() > EMAIL_MAX_LENGTH) {
-            throw new IllegalArgumentException("Email max length 100 input : " + email);
-        }
-
-        if (!Pattern.matches(EMAIL_REGULAR_REGEX, email)) {
-            throw new IllegalArgumentException("xxx@xxx.xxx : " + email);
-        }
-
-        return email;
-    }
-
     public User toEntity() {
         return User.builder()
                 .name(name)
                 .nickname(nickname)
                 .password(password)
                 .phoneNumber(phoneNumber)
-                .email(email)
+                .email(email.toString())
                 .sex(sex)
                 .auth(USER_ROLE)
                 .build();
