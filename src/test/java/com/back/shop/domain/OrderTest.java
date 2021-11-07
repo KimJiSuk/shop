@@ -1,6 +1,6 @@
 package com.back.shop.domain;
 
-import com.back.shop.order.OrderInfo;
+import com.back.shop.order.domain.OrderInfo;
 import org.junit.jupiter.api.Test;
 
 class OrderTest {

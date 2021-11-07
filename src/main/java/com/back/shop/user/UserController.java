@@ -10,9 +10,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
+import static com.back.shop.ApiUtils.ApiResult;
+import static com.back.shop.ApiUtils.success;
 
 @Api("User")
 @RestController
@@ -25,18 +26,21 @@ public class UserController {
 
     @PostMapping("/join")
     @ApiOperation(value = "회원 가입")
-    public UserResponse joinUser(@RequestBody UserJoinRequest userJoinRequest) {
+    public ApiResult<UserResponse> joinUser(@RequestBody UserJoinRequest userJoinRequest) {
         User user = userService.userJoin(userJoinRequest);
 
-        return UserResponseBuilder.one(user);
+        return success(UserResponseBuilder.one(user));
     }
 
     @PostMapping("/login")
     @ApiOperation(value = "회원 로그인(인증)")
-    public String login(@RequestBody UserLoginRequest userLoginRequest) {
+    public ApiResult<Map<String, String>> login(@RequestBody UserLoginRequest userLoginRequest) {
         User user = userService.userLogin(userLoginRequest);
+        Map<String, String> map = new HashMap<>();
+        map.put("token", jwtTokenProvider.createToken
+                (userLoginRequest.getEmail(), new ArrayList<>(Collections.singleton(user.getAuth()))));
 
-        return jwtTokenProvider.createToken(userLoginRequest.getEmail(), new ArrayList<>(Collections.singleton(user.getAuth())));
+        return success(map);
     }
 
     @PostMapping("logout")
@@ -47,30 +51,30 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "단일 회원 상세 정보 조회")
-    public UserResponse getUser(@PathVariable Long id) {
+    public ApiResult<UserResponse> getUser(@PathVariable Long id) {
         User user = userService.getUser(id);
 
-        return UserResponseBuilder.one(user);
+        return success(UserResponseBuilder.one(user));
     }
 
     @GetMapping("/{id}/order")
     @ApiOperation(value = "단일 회원의 주문 목록 조회")
-    public List<OrderResponse> getOrders(@PathVariable Long id) {
+    public ApiResult<List<OrderResponse>> getOrders(@PathVariable Long id) {
         List<Order> orders = userService.getOrders(id);
 
-        return OrderResponseBuilder.of(orders);
+        return success(OrderResponseBuilder.of(orders));
     }
 
     @GetMapping
     @ApiOperation(value = "여러 회원 목록 조회")
-    public List<UserOrderResponse> getUsers(
+    public ApiResult<List<UserOrderResponse>> getUsers(
             @RequestParam Long offset,
             @RequestParam Long size,
             @RequestParam String name,
             @RequestParam String email
     ) {
 
-        return UserOrderResponseBuilder.of(userService.getUsers(offset, size, name, email));
+        return success(UserOrderResponseBuilder.of(userService.getUsers(offset, size, name, email)));
     }
 
 }

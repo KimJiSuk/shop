@@ -1,5 +1,6 @@
 package com.back.shop.user;
 
+import com.back.shop.exception.NotFoundException;
 import com.back.shop.order.entity.Order;
 import com.back.shop.order.entity.OrderRepository;
 import com.back.shop.user.domain.UserInfo;
@@ -14,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.InputMismatchException;
 import java.util.List;
 
 @Service
@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
         User user = loadUserByUsername(userLoginRequest.getEmail());
 
         if (!passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
-            throw new InputMismatchException("Mismatch password. email : " + userLoginRequest.getEmail());
+            throw new NotFoundException("Mismatch password. email : " + userLoginRequest.getEmail());
         }
 
         return user;
@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
     @Transactional(readOnly = true)
     public User getUser(Long id) {
 
-        return userRepository.findById(id).orElseThrow(() -> new InputMismatchException("user id not found. id :" + id));
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("user id not found. id :" + id));
     }
 
     @Transactional(readOnly = true)
