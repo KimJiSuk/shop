@@ -3,12 +3,32 @@ version: '3.3'
 services:
   db:
     image: mysql
+    container_name: shop-mysql
     environment:
       MYSQL_ROOT_PASSWORD: "backpack"
       TZ: Asia/Seoul
     restart: always
     volumes:
+      - "./src/sql/:/docker-entrypoint-initdb.d/"
       - "./docker-compose-mysql.cnf:/etc/mysql/conf.d/mysql.cnf"
     ports:
       - 3306:3306
-    container_name: shop-mysql
+    networks:
+      - api_network
+  shop-api:
+    build: .
+    restart: always
+    container_name: shop-api
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://shop-mysql:3306/shop?serverTimezone=UTC&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: back
+      SPRING_DATASOURCE_PASSWORD: admin123
+    networks:
+      - api_network
+
+networks:
+  api_network:
