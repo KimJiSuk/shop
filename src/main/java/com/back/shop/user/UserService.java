@@ -1,5 +1,6 @@
 package com.back.shop.user;
 
+import com.back.shop.exception.FoundException;
 import com.back.shop.exception.NotFoundException;
 import com.back.shop.order.entity.Order;
 import com.back.shop.order.entity.OrderRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +33,12 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public User userJoin(UserJoinRequest userJoinRequest) {
+        User user = userRepository.findFirstByEmail(userJoinRequest.getEmail()).orElse(null);
+
+        if (!Objects.isNull(user)) {
+            throw new FoundException("Already email.");
+        }
+
         UserInfo userInfo = new UserInfo(userJoinRequest.getName(), userJoinRequest.getNickname(),
                 encodePassword(userJoinRequest.getPassword()), userJoinRequest.getPhoneNumber(), userJoinRequest.getEmail(),
                 userJoinRequest.getSex());
@@ -63,6 +71,10 @@ public class UserService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public List<Tuple> getUsers(Long offset, Long size, String name, String email) {
+        if (Objects.isNull(offset)) offset = 0L;
+        if (Objects.isNull(size)) size = 5L;
+        if (Objects.isNull(name)) name = "";
+        if (Objects.isNull(email)) email = "";
 
         return userDao.getUsers(offset, size, name, email);
     }

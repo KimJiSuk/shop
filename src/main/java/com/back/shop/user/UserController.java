@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 import static com.back.shop.ApiUtils.ApiResult;
@@ -68,10 +69,10 @@ public class UserController {
     @GetMapping
     @ApiOperation(value = "여러 회원 목록 조회")
     public ApiResult<List<UserOrderResponse>> getUsers(
-            @RequestParam Long offset,
-            @RequestParam Long size,
-            @RequestParam String name,
-            @RequestParam String email
+            @RequestParam(required = false) Long offset,
+            @RequestParam(required = false) Long size,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email
     ) {
 
         return success(UserOrderResponseBuilder.of(userService.getUsers(offset, size, name, email)));
