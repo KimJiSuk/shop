@@ -29,7 +29,7 @@ http://localhost:8080/swagger-ui.html
 
 ### Table DDL
 ```
-src/sql/ddl.sql
+[src/sql/ddl.sql](https://github.com/KimJiSuk/shop/blob/bddd03e151eae0df446fce7756a660034d19ec7c/src/sql/ddl.sql)
 ```
 
 ### Requirements
